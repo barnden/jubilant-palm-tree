@@ -1,0 +1,144 @@
+\ProvidesPackage{brandon}[23/04/2020 0.2.0]
+\RequirePackage{fancyhdr, amsfonts, amsmath, amssymb, mathtools, xparse, enumitem, multicol, tikz, mathtools, empheq, xcolor, mdframed, hyperref, subfiles, pgffor}
+\RequirePackage[letterpaper,total={5.5in,8in}]{geometry}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[mathscr]{euscript}
+\let\euscr\mathscr \let\mathscr\relax
+\RequirePackage[scr]{rsfso}
+
+% <---- Commands ----> %
+% Define set command
+% From https://tex.stackexchange.com/questions/209863/
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}%
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}%
+{\setargsaux#1}%
+\NewDocumentCommand{\setargsaux}{mm}%
+{\IfNoValueTF{#2}{#1} {#1\nonscript\:\delimsize\vert\allowbreak\nonscript\:\mathopen{}#2}}%
+\def\Set{\set*}
+\newcommand{\rmac}[1]{\newcommand{#1}[1]{\renewcommand{#1}{##1}}}
+\newcommand{\np}{%
+    \raggedbottom%
+    \pagebreak%
+}
+
+\newcommand{\lp}{\mathcal{L}} % Laplace operator
+\newcommand{\lpinv}{\mathcal{L}^{-1}} % Inverse Laplace operator
+\DeclarePairedDelimiter\vecc{\langle}{\rangle} % Angle bracket vector notation
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor} % Floor
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil} % Ceiling
+\newcommand{\notLR}{\mathrel{\ooalign{$\Leftrightarrow$\cr\hidewidth$/
+$\hidewidth}}} % Not Leftright arrow
+\newcommand{\nequiv}{\not\equiv} % Not equivalent
+\newcommand{\RE}{\mathbb{R}} % Reals
+\newcommand{\RR}{\RE^{2}} % 2 space, reals
+\newcommand{\RRR}{\RE^{3}} % 3 space, reals
+\newcommand{\CC}{\mathbb{C}} % Complex numbers
+\newcommand{\CQ}{\mathbb{H}} % Quaternions
+\newcommand{\NO}{\textbf{No}} % Surreals
+\newcommand{\xy}{$xy$-plane} % xy-plane
+\newcommand{\yz}{$yz$-plane} % yz-plane
+\newcommand{\xz}{$xz$-plane} % xz-plane
+\newmdenv[% Create generic template
+    skipabove=3pt,%
+    skipbelow=3pt%
+]{mdgeneric}
+\newenvironment{generic*}[4]{% Create generic environment
+    \begin{mdgeneric}[%
+        frametitle={\textcolor{#2}{#3}},%
+        repeatframetitle=true,%
+        linecolor=#1,%
+        backgroundcolor=#1,%
+        linewidth=3pt,leftline=#4,%
+        topline=false,%
+        bottomline=false,%
+        rightline=false,%
+        linecolor=#2%
+    ]}%
+    {\end{mdgeneric}}
+\newcommand{\regenv}[5]{%
+% Register new environment based on generic
+    \newcounter{#1}[chapter]%
+    % Reset counter with each chapter
+    \newenvironment{#1*}[1][\unskip]{%
+        \begin{generic*}{#2}{#3}{#4 ##1}{#5}}{\end{generic*}}%
+    \newenvironment{#1}[1][\unskip]{%
+        \begin{#1*}[\textbf{\the\value{chapter}.\the\value{#1}} \textmd{\textit{##1}}]%
+        \addtocounter{#1}{1}%
+        \label{#1\the\value{chapter}-\the\value{#1}}
+    }{\end{#1*}}%
+}
+
+\regenv{method}{C0}{C1}{Method}{true} % blue
+\regenv{homework}{C2}{C3}{Homework}{false} % beige
+\regenv{hwquestion}{C2}{C3}{Question}{false} % beige
+\regenv{definition}{C4}{C5}{Definition}{true} % green
+\regenv{example}{C6}{C7}{Example}{true} % red/pink
+\regenv{theorem}{C8}{C9}{Theorem}{true} % purple
+\regenv{proof}{C2}{C3}{Proof}{true} % beige
+\regenv{remark}{CA}{CB}{Remark}{true} % grey
+\regenv{corollary}{C8}{C9}{Corollary}{true} % blue
+% </--- Commands ----> %
+
+% <---- Colours ----> %
+\definecolor{C0}{HTML}{e8ecf1} % Light Blue
+\definecolor{C1}{HTML}{7393a7} % Dark Blue
+\definecolor{C2}{HTML}{FBF0EF} % Light Beige
+\definecolor{C3}{HTML}{463F3A} % Dark Beige
+\definecolor{C4}{HTML}{F2FAF6} % Light Green
+\definecolor{C5}{HTML}{648381} % Steel Teal
+\definecolor{C6}{HTML}{FFF6EE} % Offwhite
+\definecolor{C7}{HTML}{D77A61} % Terra cotta
+\definecolor{C8}{HTML}{F9EFFF} % Magnolia
+\definecolor{C9}{HTML}{7261A3} % Dark blue-gray
+\definecolor{CA}{HTML}{F2F2F2} % Light Grey
+\definecolor{CB}{HTML}{313131} % Dark Grey
+\definecolor{background}{HTML}{475A62} % Bleu
+\definecolor{background2}{HTML}{7B9E87} 
+% <!--- Colours ----> %
+
+% <---- Aliases ---->
+\rmac{\course}
+\rmac{\sect}
+\rmac{\class}
+\rmac{\textbook}
+\rmac{\name}
+\rmac{\university}
+\rmac{\college}
+\rmac{\semester}
+\rmac{\instructor}
+\rmac{\major}
+% <!--- Aliases ---->
+
+\DeclareOption{notes}{
+    \fancyhead[R]{\name}
+    \fancyhead[L]{\leftmark}
+    \fancyfoot[R]{\thepage}
+    \fancyfoot[L]{\rightmark}
+    \author{\name}
+    \renewcommand{\maketitle}{
+        \begin{titlepage}
+            \newgeometry{left=5cm}
+            \pagecolor{background}
+            \noindent
+            \color{white}\\[5em]
+            \makebox[0pt][l]{\rule{1.3\textwidth}{1.34pt}}\\[1.67em]
+            \color{white}{%
+                \course\ - \sect\\[1em]%
+                {\Huge{\class}}\\[.67em]%
+                \textit{\university\ ---\ \college}\\[.34em]%
+            }\\[30em]
+            \noindent
+            {\Huge{\semester}}\\[1.33em]
+            {\large{\name}}\\[-0.25em]
+        \end{titlepage}
+        \restoregeometry
+        \nopagecolor
+    }
+}
+\DeclareOption{assignment}{
+    % TODO: Complete this!
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\ProcessOptions\relax

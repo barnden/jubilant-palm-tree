@@ -1,0 +1,25 @@
+\documentclass[oneside,a4paper]{report}
+\usepackage[notes]{brandon}
+
+% LaTeX calls everything "chapter", so we can change it from saying
+% chapter to something like Unit or Lecture
+\renewcommand{\chaptername}{Unit}
+
+% Change this stuff to match what you're doing
+\course{MATH 308}
+\sect{500}
+\class{Differential Equations}
+\name{Brandon Nguyen}
+\university{Texas A\&M}
+\college{College of Science}
+\semester{Spring 2020}
+
+\begin{document}
+    % Do not edit this part
+    \maketitle
+    \tableofcontents
+    \np
+
+    % You can add more subfiles here.
+    \subfile{units/unit_1}
+\end{document}

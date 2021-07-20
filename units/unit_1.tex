@@ -1,0 +1,46 @@
+% !TeX root = ../template.tex
+\documentclass[../template.tex]{subfiles}
+
+\begin{document}
+    \chapter{Ordinary Differential Equations}
+
+    \begin{definition}[Differential Equation]
+        A \textbf{differential equation} (DE) is an equation relating a function to its derivatives, for example,
+        % The \[ and \] are used for equations that should stand alone
+        \[
+            \frac{dy}{dx} = f(x).
+        \]
+        For our class, we will only consider \textbf{ordinary differential equations} (ODEs). An ODE relates one independent variable to its derivatives.
+    \end{definition}
+
+    \section{First Order Differential Equation}
+
+    % Create an example block with title "Solving Linear ODEs"
+    \begin{example}[Solving Linear ODEs]
+        Given that
+        \[
+            y = y'.
+        \]
+        % The dollar signs are used for math symbols/equations that are used inside of a sentence.
+        Notice that $y$ is related to its own derivative, $y'$. If we recall from previous calculus knowledge, we have that $\frac{d}{dx}e^x = e^x$. Therefore, the solution(s) to this linear ODE is
+        \[
+            y(x) = c_1e^x,
+        \]
+        where $c_1 \in \RE$.
+    \end{example}
+
+    % The empty [] means no title for the remark, you can also omit this
+    \begin{remark}[]
+        % We can reference other blocks using \ref{label}
+        % The label is <name of block>[chapter number]-[block number]
+        % For example, we are in chapter 1 (or Unit 1), and we want to
+        %   reference the first example block, so the label is example1-1
+        The solution we arrive at in Example \ref{example1-1} is referred to as the \textbf{general solution}. Much like in calculus when we do indefinite integrals, we have an unknown constant. 
+        However, ODEs can have multiple terms being ``integrated'', so that's why we use constants with subscripts, i.e. $c_1$.
+    \end{remark}
+    \np % np stands for new page
+    \subsection{\LaTeX\ Formatting}
+    % Look at this subsection in the compiled PDF
+    Notice in Remark \ref{remark1-1} how we do \texttt{``integrated''}, which gives ``integrated''. Compare it to\\\texttt{"integrated"}, which looks like "integrated". The first quotation mark is facing in the wrong direction in the first example.
+
+\end{document}
